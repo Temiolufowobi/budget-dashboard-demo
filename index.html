@@ -11,7 +11,7 @@ body{background:#111;color:#f0f0f0;font-family:system-ui,sans-serif;padding:1.5r
 .header{text-align:center;margin-bottom:1.5rem}
 .header h1{font-size:22px;font-weight:500;color:#f0f0f0;letter-spacing:1px}
 .header p{font-size:13px;color:#666;margin-top:4px}
-.toggle-wrap{display:flex;justify-content:center;margin-bottom:1.5rem}
+.toggle-wrap{display:flex;justify-content:center;margin-bottom:1rem}
 .toggle{background:#1a1a1a;border:0.5px solid #2a2a2a;border-radius:99px;display:flex;padding:4px;gap:4px}
 .toggle-btn{background:transparent;border:none;border-radius:99px;color:#666;cursor:pointer;font-size:13px;padding:6px 20px}
 .toggle-btn.active{background:#2a2a2a;color:#f0f0f0}
@@ -19,7 +19,7 @@ body{background:#111;color:#f0f0f0;font-family:system-ui,sans-serif;padding:1.5r
 .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1rem}
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1rem}
 .card{background:#1a1a1a;border:0.5px solid #2a2a2a;border-radius:12px;padding:1rem}
-.card-title{font-size:11px;color:#555;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.card-title{font-size:11px;color:#555;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
 .metric{font-size:20px;font-weight:500}
 .green{color:#4ade80}
 .red{color:#f87171}
@@ -27,21 +27,26 @@ body{background:#111;color:#f0f0f0;font-family:system-ui,sans-serif;padding:1.5r
 .input-row{display:flex;flex-direction:column;gap:4px;margin-bottom:10px}
 .input-row label{font-size:12px;color:#666}
 .input-row input{background:#0f0f0f;border:0.5px solid #2a2a2a;border-radius:8px;color:#f0f0f0;font-size:14px;padding:8px 10px;width:100%;outline:none}
+.input-row input:focus{border-color:#555}
 .section-label{font-size:11px;color:#555;text-transform:uppercase;letter-spacing:1px;margin:1rem 0 6px}
-.exp-row{display:grid;grid-template-columns:1fr 1fr auto;gap:6px;margin-bottom:6px;align-items:center}
-.ei{background:#0f0f0f;border:0.5px solid #2a2a2a;border-radius:8px;color:#f0f0f0;font-size:13px;padding:6px 10px;width:100%;outline:none}
-.add-btn{background:transparent;border:0.5px dashed #333;border-radius:8px;color:#555;cursor:pointer;font-size:12px;padding:7px;width:100%;margin-top:6px;display:block}
+.exp-row{display:grid;grid-template-columns:1fr 120px auto;gap:6px;margin-bottom:6px;align-items:center}
+.ei{background:#0f0f0f;border:0.5px solid #2a2a2a;border-radius:8px;color:#f0f0f0;font-size:13px;padding:7px 10px;width:100%;outline:none}
+.ei:focus{border-color:#555}
+.add-btn{background:transparent;border:0.5px dashed #333;border-radius:8px;color:#555;cursor:pointer;font-size:12px;padding:7px;width:100%;margin-top:6px}
 .add-btn:hover{border-color:#666;color:#aaa}
-.rm-btn{background:transparent;border:none;color:#444;cursor:pointer;font-size:14px;padding:4px}
+.rm-btn{background:transparent;border:none;color:#444;cursor:pointer;font-size:16px;line-height:1;padding:6px}
 .rm-btn:hover{color:#f87171}
 .prog-bg{background:#1f1f1f;border-radius:99px;height:8px;overflow:hidden;margin:6px 0}
-.prog-fill{border-radius:99px;height:8px;transition:width 0.4s}
+.prog-fill{border-radius:99px;height:8px;transition:width 0.3s}
 .prog-labels{display:flex;justify-content:space-between;font-size:11px;color:#555}
+.goal-block{padding:10px 0}
+.goal-row{display:grid;grid-template-columns:1fr 110px auto;gap:6px;margin-bottom:6px;align-items:center}
+.goal-saved-row{display:grid;grid-template-columns:1fr auto;gap:6px;align-items:center;margin-bottom:6px}
 .chart-wrap{position:relative;width:100%;height:220px}
-.legend{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
 .legend-item{display:flex;align-items:center;gap:5px;font-size:12px;color:#666}
 .legend-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0}
-.divider{border:none;border-top:0.5px solid #222;margin:0.75rem 0}
+.divider{border:none;border-top:0.5px solid #222;margin:8px 0}
 .footer{text-align:center;font-size:11px;color:#444;margin-top:1.5rem;padding-top:1rem;border-top:0.5px solid #1f1f1f}
 </style>
 </head>
@@ -54,13 +59,13 @@ body{background:#111;color:#f0f0f0;font-family:system-ui,sans-serif;padding:1.5r
 
 <div class="toggle-wrap">
   <div class="toggle">
-    <button type="button" class="toggle-btn active" id="btn-biweekly" onclick="setPeriod('biweekly')">Bi-weekly</button>
+    <button type="button" class="toggle-btn active" id="btn-weekly" onclick="setPeriod('weekly')">Weekly</button>
+    <button type="button" class="toggle-btn" id="btn-biweekly" onclick="setPeriod('biweekly')">Bi-weekly</button>
     <button type="button" class="toggle-btn" id="btn-monthly" onclick="setPeriod('monthly')">Monthly</button>
-    <button type="button" class="toggle-btn" id="btn-weekly" onclick="setPeriod('weekly')">Weekly</button>
   </div>
 </div>
 
-<div class="badge" id="period-badge">Showing bi-weekly budget — paid every 2 weeks</div>
+<div class="badge" id="period-badge">Enter your weekly income and expenses below</div>
 
 <div class="grid-4">
   <div class="card">
@@ -83,32 +88,32 @@ body{background:#111;color:#f0f0f0;font-family:system-ui,sans-serif;padding:1.5r
 
 <div class="grid-2">
   <div class="card">
-    <div class="card-title">Income</div>
+    <div class="card-title">Income & Expenses</div>
     <div class="input-row">
-      <label id="salary-label">Bi-weekly salary</label>
-      <input type="number" id="salary" value="2400" oninput="recalc()">
+      <label id="salary-label">Weekly salary</label>
+      <input type="number" id="salary" value="1200" oninput="recalc()">
     </div>
     <div class="input-row">
       <label>Other income (optional)</label>
       <input type="number" id="other-income" value="0" oninput="recalc()">
     </div>
-    <div class="section-label">Expenses</div>
+    <div class="section-label">Expenses <span style="color:#444;font-size:10px;text-transform:none;letter-spacing:0">(enter for selected period)</span></div>
     <div id="expense-list"></div>
     <button type="button" class="add-btn" onclick="addExpense()">+ Add expense</button>
   </div>
 
   <div class="card">
-    <div class="card-title">Savings goals</div>
+    <div class="card-title">Savings Goals</div>
     <div id="goals-list"></div>
     <button type="button" class="add-btn" onclick="addGoal()">+ Add savings goal</button>
   </div>
 </div>
 
 <div class="card">
-  <div class="card-title">Spending breakdown</div>
+  <div class="card-title">Spending Breakdown</div>
   <div class="legend" id="chart-legend"></div>
   <div class="chart-wrap">
-    <canvas id="donutChart" role="img" aria-label="Donut chart showing spending breakdown by category">Spending breakdown by category.</canvas>
+    <canvas id="donutChart" role="img" aria-label="Spending breakdown donut chart">Spending breakdown by category.</canvas>
   </div>
 </div>
 
@@ -117,33 +122,33 @@ body{background:#111;color:#f0f0f0;font-family:system-ui,sans-serif;padding:1.5r
 <script>
 var COLORS=['#a78bfa','#fbbf24','#4ade80','#f87171','#60a5fa','#fb923c','#e879f9','#34d399','#f472b6','#38bdf8'];
 var GOAL_COLORS=['#fbbf24','#4ade80','#a78bfa','#60a5fa'];
-var period='biweekly';
+var period='weekly';
 var expenses=[
-  {name:'Rent',amount:950},
-  {name:'Car payment',amount:285},
-  {name:'Electric',amount:85},
-  {name:'Internet',amount:60},
-  {name:'Credit card',amount:150}
+  {name:'Rent',weekly:238,biweekly:475,monthly:950},
+  {name:'Car payment',weekly:71,biweekly:143,monthly:285},
+  {name:'Electric',weekly:21,biweekly:43,monthly:85},
+  {name:'Internet',weekly:15,biweekly:30,monthly:60},
+  {name:'Credit card',weekly:38,biweekly:75,monthly:150}
 ];
 var goals=[
   {name:'Trip',target:3000,saved:1875},
   {name:'Emergency fund',target:5000,saved:1200}
 ];
 var chart=null;
-
 var PERIODS={
-  biweekly:{label:'Bi-weekly salary',badge:'Showing bi-weekly budget — paid every 2 weeks',mult:1},
-  monthly:{label:'Monthly salary',badge:'Showing monthly budget — all amounts per month',mult:2},
-  weekly:{label:'Weekly salary',badge:'Showing weekly budget — all amounts per week',mult:0.5}
+  weekly:{label:'Weekly salary',badge:'Enter your weekly income and expenses below',key:'weekly'},
+  biweekly:{label:'Bi-weekly salary',badge:'Enter your bi-weekly income and expenses below',key:'biweekly'},
+  monthly:{label:'Monthly salary',badge:'Enter your monthly income and expenses below',key:'monthly'}
 };
 
 function setPeriod(p){
   period=p;
-  document.getElementById('btn-biweekly').className='toggle-btn'+(p==='biweekly'?' active':'');
-  document.getElementById('btn-monthly').className='toggle-btn'+(p==='monthly'?' active':'');
-  document.getElementById('btn-weekly').className='toggle-btn'+(p==='weekly'?' active':'');
+  ['weekly','biweekly','monthly'].forEach(function(x){
+    document.getElementById('btn-'+x).className='toggle-btn'+(p===x?' active':'');
+  });
   document.getElementById('period-badge').textContent=PERIODS[p].badge;
   document.getElementById('salary-label').textContent=PERIODS[p].label;
+  renderExpenses();
   recalc();
 }
 
@@ -151,12 +156,15 @@ function fmt(n){
   return'$'+Math.abs(n).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
 }
 
+function getKey(){return PERIODS[period].key;}
+
 function renderExpenses(){
+  var k=getKey();
   var html='';
   for(var i=0;i<expenses.length;i++){
     html+='<div class="exp-row">';
     html+='<input class="ei" type="text" value="'+expenses[i].name+'" oninput="expenses['+i+'].name=this.value;recalc()">';
-    html+='<input class="ei" type="number" value="'+expenses[i].amount+'" oninput="expenses['+i+'].amount=parseFloat(this.value)||0;recalc()">';
+    html+='<input class="ei" type="number" value="'+expenses[i][k]+'" onchange="expenses['+i+'][\''+k+'\']=parseFloat(this.value)||0;recalc()">';
     html+='<button type="button" class="rm-btn" onclick="removeExpense('+i+')">&#x2715;</button>';
     html+='</div>';
   }
@@ -164,7 +172,7 @@ function renderExpenses(){
 }
 
 function addExpense(){
-  expenses.push({name:'New expense',amount:0});
+  expenses.push({name:'New expense',weekly:0,biweekly:0,monthly:0});
   renderExpenses();
   recalc();
 }
@@ -183,20 +191,20 @@ function renderGoals(){
     var color=GOAL_COLORS[i%GOAL_COLORS.length];
     var remaining=Math.max(g.target-g.saved,0);
     var msg=pct>=1?'Goal complete!':pct>=0.75?'Almost there!':pct>=0.5?'Halfway there!':pct>=0.25?'Good start!':'Just getting started!';
-    if(i>0) html+='<div class="divider"></div>';
-    html+='<div style="margin-bottom:8px">';
-    html+='<div class="exp-row">';
+    if(i>0)html+='<div class="divider"></div>';
+    html+='<div class="goal-block">';
+    html+='<div class="goal-row">';
     html+='<input class="ei" type="text" value="'+g.name+'" oninput="goals['+i+'].name=this.value;renderGoals()">';
-    html+='<input class="ei" type="number" placeholder="Target" value="'+g.target+'" oninput="goals['+i+'].target=parseFloat(this.value)||1;renderGoals()">';
+    html+='<input class="ei" type="number" placeholder="Goal $" value="'+g.target+'" onchange="goals['+i+'].target=parseFloat(this.value)||1;renderGoals()">';
     html+='<button type="button" class="rm-btn" onclick="removeGoal('+i+')">&#x2715;</button>';
     html+='</div>';
-    html+='<div style="display:grid;grid-template-columns:1fr auto;gap:6px;align-items:center;margin-bottom:6px">';
-    html+='<input class="ei" type="number" placeholder="Saved so far" value="'+g.saved+'" oninput="goals['+i+'].saved=parseFloat(this.value)||0;renderGoals()">';
-    html+='<span style="font-size:13px;color:'+color+';font-weight:500;white-space:nowrap">'+Math.round(pct*100)+'%</span>';
+    html+='<div class="goal-saved-row">';
+    html+='<input class="ei" type="number" placeholder="Saved so far $" value="'+g.saved+'" onchange="goals['+i+'].saved=parseFloat(this.value)||0;renderGoals()">';
+    html+='<span style="font-size:13px;color:'+color+';font-weight:600;white-space:nowrap;padding-left:6px">'+Math.round(pct*100)+'%</span>';
     html+='</div>';
     html+='<div class="prog-bg"><div class="prog-fill" style="width:'+Math.round(pct*100)+'%;background:'+color+'"></div></div>';
-    html+='<div class="prog-labels"><span>'+fmt(g.saved)+' saved</span><span>'+fmt(remaining)+' left</span></div>';
-    html+='<div style="font-size:11px;color:#555;margin-top:4px;text-align:center">'+msg+'</div>';
+    html+='<div class="prog-labels"><span>'+fmt(g.saved)+' saved</span><span>'+fmt(remaining)+' to go</span></div>';
+    html+='<div style="font-size:11px;color:#555;margin-top:5px;text-align:center">'+msg+'</div>';
     html+='</div>';
   }
   document.getElementById('goals-list').innerHTML=html;
@@ -213,44 +221,36 @@ function removeGoal(i){
 }
 
 function recalc(){
-  var m=PERIODS[period].mult;
+  var k=getKey();
   var salary=parseFloat(document.getElementById('salary').value)||0;
-  var other=(parseFloat(document.getElementById('other-income').value)||0)*m;
+  var other=parseFloat(document.getElementById('other-income').value)||0;
   var totalIncome=salary+other;
   var totalExp=0;
-  for(var i=0;i<expenses.length;i++) totalExp+=(expenses[i].amount||0)*m;
+  for(var i=0;i<expenses.length;i++)totalExp+=expenses[i][k]||0;
   var disposable=totalIncome-totalExp;
-
   document.getElementById('m-income').textContent=fmt(totalIncome);
   document.getElementById('m-expenses').textContent=fmt(totalExp);
   document.getElementById('m-disposable').textContent=fmt(Math.max(disposable,0));
-
   var leftEl=document.getElementById('m-left');
   leftEl.textContent=(disposable<0?'-':'')+fmt(disposable);
   leftEl.className='metric '+(disposable>=0?'green':'red');
-
-  updateChart(m);
+  updateChart(k);
 }
 
-function updateChart(m){
-  var labels=[];
-  var data=[];
+function updateChart(k){
+  var labels=[],data=[],bgColors=[];
   for(var i=0;i<expenses.length;i++){
     labels.push(expenses[i].name);
-    data.push(Math.max((expenses[i].amount||0)*m,0));
+    data.push(Math.max(expenses[i][k]||0,0));
+    bgColors.push(COLORS[i%COLORS.length]);
   }
-  var total=0;
-  for(var i=0;i<data.length;i++) total+=data[i];
-  var bgColors=[];
-  for(var i=0;i<labels.length;i++) bgColors.push(COLORS[i%COLORS.length]);
-
+  var total=data.reduce(function(a,b){return a+b;},0);
   var legendHtml='';
   for(var i=0;i<labels.length;i++){
     var pct=total>0?Math.round(data[i]/total*100):0;
     legendHtml+='<div class="legend-item"><div class="legend-dot" style="background:'+bgColors[i]+'"></div>'+labels[i]+' '+pct+'%</div>';
   }
   document.getElementById('chart-legend').innerHTML=legendHtml;
-
   if(chart){
     chart.data.labels=labels;
     chart.data.datasets[0].data=data;
@@ -259,19 +259,13 @@ function updateChart(m){
   } else {
     chart=new Chart(document.getElementById('donutChart'),{
       type:'doughnut',
-      data:{
-        labels:labels,
-        datasets:[{data:data,backgroundColor:bgColors,borderColor:'#111',borderWidth:2,hoverOffset:4}]
-      },
+      data:{labels:labels,datasets:[{data:data,backgroundColor:bgColors,borderColor:'#111',borderWidth:2,hoverOffset:4}]},
       options:{
-        responsive:true,
-        maintainAspectRatio:false,
-        cutout:'68%',
+        responsive:true,maintainAspectRatio:false,cutout:'68%',
         plugins:{
           legend:{display:false},
           tooltip:{callbacks:{label:function(ctx){
-            var t=0;
-            for(var i=0;i<ctx.dataset.data.length;i++) t+=ctx.dataset.data[i];
+            var t=ctx.dataset.data.reduce(function(a,b){return a+b;},0);
             return ' '+ctx.label+': '+fmt(ctx.parsed)+' ('+Math.round(ctx.parsed/t*100)+'%)';
           }}}
         }
