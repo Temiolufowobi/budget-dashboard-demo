@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Budget Dashboard</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -14,26 +13,24 @@ body{background:#111;color:#f0f0f0;font-family:system-ui,sans-serif;padding:1.5r
 .header p{font-size:13px;color:#666;margin-top:4px}
 .toggle-wrap{display:flex;justify-content:center;margin-bottom:1.5rem}
 .toggle{background:#1a1a1a;border:0.5px solid #2a2a2a;border-radius:99px;display:flex;padding:4px;gap:4px}
-.toggle-btn{background:transparent;border:none;border-radius:99px;color:#666;cursor:pointer;font-size:13px;padding:6px 20px;transition:all 0.2s}
+.toggle-btn{background:transparent;border:none;border-radius:99px;color:#666;cursor:pointer;font-size:13px;padding:6px 20px}
 .toggle-btn.active{background:#2a2a2a;color:#f0f0f0}
-.period-badge{background:#1a1a1a;border-radius:8px;color:#666;font-size:11px;padding:4px 10px;text-align:center;margin-bottom:1rem}
+.badge{background:#1a1a1a;border-radius:8px;color:#666;font-size:11px;padding:4px 10px;text-align:center;margin-bottom:1rem}
 .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1rem}
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1rem}
 .card{background:#1a1a1a;border:0.5px solid #2a2a2a;border-radius:12px;padding:1rem}
 .card-title{font-size:11px;color:#555;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
-.metric{font-size:20px;font-weight:500;color:#f0f0f0}
-.metric.green{color:#4ade80}
-.metric.red{color:#f87171}
-.metric.amber{color:#fbbf24}
+.metric{font-size:20px;font-weight:500}
+.green{color:#4ade80}
+.red{color:#f87171}
+.amber{color:#fbbf24}
 .input-row{display:flex;flex-direction:column;gap:4px;margin-bottom:10px}
 .input-row label{font-size:12px;color:#666}
 .input-row input{background:#0f0f0f;border:0.5px solid #2a2a2a;border-radius:8px;color:#f0f0f0;font-size:14px;padding:8px 10px;width:100%;outline:none}
-.input-row input:focus{border-color:#555}
 .section-label{font-size:11px;color:#555;text-transform:uppercase;letter-spacing:1px;margin:1rem 0 6px}
 .exp-row{display:grid;grid-template-columns:1fr 1fr auto;gap:6px;margin-bottom:6px;align-items:center}
-.exp-input{background:#0f0f0f;border:0.5px solid #2a2a2a;border-radius:8px;color:#f0f0f0;font-size:13px;padding:6px 10px;width:100%;outline:none}
-.exp-input:focus{border-color:#555}
-.add-btn{background:transparent;border:0.5px dashed #333;border-radius:8px;color:#555;cursor:pointer;font-size:12px;padding:7px;width:100%;margin-top:4px}
+.ei{background:#0f0f0f;border:0.5px solid #2a2a2a;border-radius:8px;color:#f0f0f0;font-size:13px;padding:6px 10px;width:100%;outline:none}
+.add-btn{background:transparent;border:0.5px dashed #333;border-radius:8px;color:#555;cursor:pointer;font-size:12px;padding:7px;width:100%;margin-top:6px;display:block}
 .add-btn:hover{border-color:#666;color:#aaa}
 .rm-btn{background:transparent;border:none;color:#444;cursor:pointer;font-size:14px;padding:4px}
 .rm-btn:hover{color:#f87171}
@@ -57,13 +54,13 @@ body{background:#111;color:#f0f0f0;font-family:system-ui,sans-serif;padding:1.5r
 
 <div class="toggle-wrap">
   <div class="toggle">
-    <button class="toggle-btn active" id="btn-biweekly" onclick="setPeriod('biweekly')">Bi-weekly</button>
-    <button class="toggle-btn" id="btn-monthly" onclick="setPeriod('monthly')">Monthly</button>
-    <button class="toggle-btn" id="btn-weekly" onclick="setPeriod('weekly')">Weekly</button>
+    <button type="button" class="toggle-btn active" id="btn-biweekly" onclick="setPeriod('biweekly')">Bi-weekly</button>
+    <button type="button" class="toggle-btn" id="btn-monthly" onclick="setPeriod('monthly')">Monthly</button>
+    <button type="button" class="toggle-btn" id="btn-weekly" onclick="setPeriod('weekly')">Weekly</button>
   </div>
 </div>
 
-<div class="period-badge" id="period-badge">Showing bi-weekly budget — paid every 2 weeks</div>
+<div class="badge" id="period-badge">Showing bi-weekly budget — paid every 2 weeks</div>
 
 <div class="grid-4">
   <div class="card">
@@ -97,13 +94,13 @@ body{background:#111;color:#f0f0f0;font-family:system-ui,sans-serif;padding:1.5r
     </div>
     <div class="section-label">Expenses</div>
     <div id="expense-list"></div>
-    <button class="add-btn" onclick="addExpense()">+ Add expense</button>
+    <button type="button" class="add-btn" onclick="addExpense()">+ Add expense</button>
   </div>
 
   <div class="card">
     <div class="card-title">Savings goals</div>
     <div id="goals-list"></div>
-    <button class="add-btn" onclick="addGoal()">+ Add savings goal</button>
+    <button type="button" class="add-btn" onclick="addGoal()">+ Add savings goal</button>
   </div>
 </div>
 
@@ -111,88 +108,181 @@ body{background:#111;color:#f0f0f0;font-family:system-ui,sans-serif;padding:1.5r
   <div class="card-title">Spending breakdown</div>
   <div class="legend" id="chart-legend"></div>
   <div class="chart-wrap">
-    <canvas id="donutChart" role="img" aria-label="Donut chart showing spending breakdown by expense category">Spending breakdown by category.</canvas>
+    <canvas id="donutChart" role="img" aria-label="Donut chart showing spending breakdown by category">Spending breakdown by category.</canvas>
   </div>
 </div>
 
 <div class="footer">Built by Temi Olufowobi &nbsp;·&nbsp; Personal Finance Dashboard</div>
 
 <script>
-const COLORS=['#a78bfa','#fbbf24','#4ade80','#f87171','#60a5fa','#fb923c','#e879f9','#34d399','#f472b6','#38bdf8'];
-const GOAL_COLORS=['#fbbf24','#4ade80','#a78bfa','#60a5fa'];
-let period='biweekly';
-let expenses=[
+var COLORS=['#a78bfa','#fbbf24','#4ade80','#f87171','#60a5fa','#fb923c','#e879f9','#34d399','#f472b6','#38bdf8'];
+var GOAL_COLORS=['#fbbf24','#4ade80','#a78bfa','#60a5fa'];
+var period='biweekly';
+var expenses=[
   {name:'Rent',amount:950},
   {name:'Car payment',amount:285},
   {name:'Electric',amount:85},
   {name:'Internet',amount:60},
   {name:'Credit card',amount:150}
 ];
-let goals=[
+var goals=[
   {name:'Trip',target:3000,saved:1875},
   {name:'Emergency fund',target:5000,saved:1200}
 ];
-let chart;
+var chart=null;
 
-const PERIOD_CONFIG={
-  biweekly:{label:'Bi-weekly salary',badge:'Showing bi-weekly budget — paid every 2 weeks',multiplier:1},
-  monthly:{label:'Monthly salary',badge:'Showing monthly budget — all amounts per month',multiplier:2},
-  weekly:{label:'Weekly salary',badge:'Showing weekly budget — all amounts per week',multiplier:0.5}
+var PERIODS={
+  biweekly:{label:'Bi-weekly salary',badge:'Showing bi-weekly budget — paid every 2 weeks',mult:1},
+  monthly:{label:'Monthly salary',badge:'Showing monthly budget — all amounts per month',mult:2},
+  weekly:{label:'Weekly salary',badge:'Showing weekly budget — all amounts per week',mult:0.5}
 };
 
 function setPeriod(p){
   period=p;
-  ['biweekly','monthly','weekly'].forEach(x=>{
-    document.getElementById('btn-'+x).className='toggle-btn'+(p===x?' active':'');
-  });
-  document.getElementById('period-badge').textContent=PERIOD_CONFIG[p].badge;
-  document.getElementById('salary-label').textContent=PERIOD_CONFIG[p].label;
+  document.getElementById('btn-biweekly').className='toggle-btn'+(p==='biweekly'?' active':'');
+  document.getElementById('btn-monthly').className='toggle-btn'+(p==='monthly'?' active':'');
+  document.getElementById('btn-weekly').className='toggle-btn'+(p==='weekly'?' active':'');
+  document.getElementById('period-badge').textContent=PERIODS[p].badge;
+  document.getElementById('salary-label').textContent=PERIODS[p].label;
   recalc();
 }
 
-function renderExpenses(){
-  document.getElementById('expense-list').innerHTML=expenses.map((e,i)=>`
-    <div class="exp-row">
-      <input class="exp-input" value="${e.name}" oninput="expenses[${i}].name=this.value;recalc()">
-      <input class="exp-input" type="number" value="${e.amount}" oninput="expenses[${i}].amount=parseFloat(this.value)||0;recalc()">
-      <button class="rm-btn" onclick="removeExpense(${i})" aria-label="Remove">✕</button>
-    </div>`).join('');
+function fmt(n){
+  return'$'+Math.abs(n).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
 }
 
-function addExpense(){expenses.push({name:'New expense',amount:0});renderExpenses();recalc();}
-function removeExpense(i){expenses.splice(i,1);renderExpenses();recalc();}
+function renderExpenses(){
+  var html='';
+  for(var i=0;i<expenses.length;i++){
+    html+='<div class="exp-row">';
+    html+='<input class="ei" type="text" value="'+expenses[i].name+'" oninput="expenses['+i+'].name=this.value;recalc()">';
+    html+='<input class="ei" type="number" value="'+expenses[i].amount+'" oninput="expenses['+i+'].amount=parseFloat(this.value)||0;recalc()">';
+    html+='<button type="button" class="rm-btn" onclick="removeExpense('+i+')">&#x2715;</button>';
+    html+='</div>';
+  }
+  document.getElementById('expense-list').innerHTML=html;
+}
+
+function addExpense(){
+  expenses.push({name:'New expense',amount:0});
+  renderExpenses();
+  recalc();
+}
+
+function removeExpense(i){
+  expenses.splice(i,1);
+  renderExpenses();
+  recalc();
+}
 
 function renderGoals(){
-  document.getElementById('goals-list').innerHTML=goals.map((g,i)=>{
-    const pct=Math.min(g.saved/Math.max(g.target,1),1);
-    const color=GOAL_COLORS[i%GOAL_COLORS.length];
-    return`<div style="margin-bottom:12px">
-      <div style="display:grid;grid-template-columns:1fr 1fr auto;gap:6px;margin-bottom:6px">
-        <input class="exp-input" value="${g.name}" oninput="goals[${i}].name=this.value;renderGoals()">
-        <input class="exp-input" type="number" placeholder="Target" value="${g.target}" oninput="goals[${i}].target=parseFloat(this.value)||1;renderGoals()">
-        <button class="rm-btn" onclick="removeGoal(${i})" aria-label="Remove">✕</button>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:6px">
-        <input class="exp-input" type="number" placeholder="Saved so far" value="${g.saved}" oninput="goals[${i}].saved=parseFloat(this.value)||0;renderGoals()">
-        <div style="display:flex;align-items:center;justify-content:flex-end;font-size:13px;color:${color};font-weight:500">${Math.round(pct*100)}%</div>
-      </div>
-      <div class="prog-bg"><div class="prog-fill" style="width:${pct*100}%;background:${color}"></div></div>
-      <div class="prog-labels">
-        <span>$${g.saved.toLocaleString()} saved</span>
-        <span>$${Math.max(g.target-g.saved,0).toLocaleString()} left</span>
-      </div>
-      <div style="font-size:11px;color:#555;margin-top:4px;text-align:center">${pct>=1?'Goal complete!':pct>=0.75?'Almost there!':pct>=0.5?'Halfway there!':pct>=0.25?'Good start!':'Just getting started!'}</div>
-    </div>`;
-  }).join('<div class="divider"></div>');
+  var html='';
+  for(var i=0;i<goals.length;i++){
+    var g=goals[i];
+    var pct=Math.min(g.saved/Math.max(g.target,1),1);
+    var color=GOAL_COLORS[i%GOAL_COLORS.length];
+    var remaining=Math.max(g.target-g.saved,0);
+    var msg=pct>=1?'Goal complete!':pct>=0.75?'Almost there!':pct>=0.5?'Halfway there!':pct>=0.25?'Good start!':'Just getting started!';
+    if(i>0) html+='<div class="divider"></div>';
+    html+='<div style="margin-bottom:8px">';
+    html+='<div class="exp-row">';
+    html+='<input class="ei" type="text" value="'+g.name+'" oninput="goals['+i+'].name=this.value;renderGoals()">';
+    html+='<input class="ei" type="number" placeholder="Target" value="'+g.target+'" oninput="goals['+i+'].target=parseFloat(this.value)||1;renderGoals()">';
+    html+='<button type="button" class="rm-btn" onclick="removeGoal('+i+')">&#x2715;</button>';
+    html+='</div>';
+    html+='<div style="display:grid;grid-template-columns:1fr auto;gap:6px;align-items:center;margin-bottom:6px">';
+    html+='<input class="ei" type="number" placeholder="Saved so far" value="'+g.saved+'" oninput="goals['+i+'].saved=parseFloat(this.value)||0;renderGoals()">';
+    html+='<span style="font-size:13px;color:'+color+';font-weight:500;white-space:nowrap">'+Math.round(pct*100)+'%</span>';
+    html+='</div>';
+    html+='<div class="prog-bg"><div class="prog-fill" style="width:'+Math.round(pct*100)+'%;background:'+color+'"></div></div>';
+    html+='<div class="prog-labels"><span>'+fmt(g.saved)+' saved</span><span>'+fmt(remaining)+' left</span></div>';
+    html+='<div style="font-size:11px;color:#555;margin-top:4px;text-align:center">'+msg+'</div>';
+    html+='</div>';
+  }
+  document.getElementById('goals-list').innerHTML=html;
 }
 
-function addGoal(){goals.push({name:'New goal',target:1000,saved:0});renderGoals();}
-function removeGoal(i){goals.splice(i,1);renderGoals();}
+function addGoal(){
+  goals.push({name:'New goal',target:1000,saved:0});
+  renderGoals();
+}
 
-function fmt(n){return'$'+Math.abs(n).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});}
+function removeGoal(i){
+  goals.splice(i,1);
+  renderGoals();
+}
 
 function recalc(){
-  const m=PERIOD_CONFIG[period].multiplier;
-  const salary=parseFloat(document.getElementById('salary').value)||0;
-  const other=(parseFloat(document.getElementById('other-income').value)||0)*m;
-  cons
+  var m=PERIODS[period].mult;
+  var salary=parseFloat(document.getElementById('salary').value)||0;
+  var other=(parseFloat(document.getElementById('other-income').value)||0)*m;
+  var totalIncome=salary+other;
+  var totalExp=0;
+  for(var i=0;i<expenses.length;i++) totalExp+=(expenses[i].amount||0)*m;
+  var disposable=totalIncome-totalExp;
+
+  document.getElementById('m-income').textContent=fmt(totalIncome);
+  document.getElementById('m-expenses').textContent=fmt(totalExp);
+  document.getElementById('m-disposable').textContent=fmt(Math.max(disposable,0));
+
+  var leftEl=document.getElementById('m-left');
+  leftEl.textContent=(disposable<0?'-':'')+fmt(disposable);
+  leftEl.className='metric '+(disposable>=0?'green':'red');
+
+  updateChart(m);
+}
+
+function updateChart(m){
+  var labels=[];
+  var data=[];
+  for(var i=0;i<expenses.length;i++){
+    labels.push(expenses[i].name);
+    data.push(Math.max((expenses[i].amount||0)*m,0));
+  }
+  var total=0;
+  for(var i=0;i<data.length;i++) total+=data[i];
+  var bgColors=[];
+  for(var i=0;i<labels.length;i++) bgColors.push(COLORS[i%COLORS.length]);
+
+  var legendHtml='';
+  for(var i=0;i<labels.length;i++){
+    var pct=total>0?Math.round(data[i]/total*100):0;
+    legendHtml+='<div class="legend-item"><div class="legend-dot" style="background:'+bgColors[i]+'"></div>'+labels[i]+' '+pct+'%</div>';
+  }
+  document.getElementById('chart-legend').innerHTML=legendHtml;
+
+  if(chart){
+    chart.data.labels=labels;
+    chart.data.datasets[0].data=data;
+    chart.data.datasets[0].backgroundColor=bgColors;
+    chart.update();
+  } else {
+    chart=new Chart(document.getElementById('donutChart'),{
+      type:'doughnut',
+      data:{
+        labels:labels,
+        datasets:[{data:data,backgroundColor:bgColors,borderColor:'#111',borderWidth:2,hoverOffset:4}]
+      },
+      options:{
+        responsive:true,
+        maintainAspectRatio:false,
+        cutout:'68%',
+        plugins:{
+          legend:{display:false},
+          tooltip:{callbacks:{label:function(ctx){
+            var t=0;
+            for(var i=0;i<ctx.dataset.data.length;i++) t+=ctx.dataset.data[i];
+            return ' '+ctx.label+': '+fmt(ctx.parsed)+' ('+Math.round(ctx.parsed/t*100)+'%)';
+          }}}
+        }
+      }
+    });
+  }
+}
+
+renderExpenses();
+renderGoals();
+recalc();
+</script>
+</body>
+</html>
